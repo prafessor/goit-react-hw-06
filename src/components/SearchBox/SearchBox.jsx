@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFilter } from "../../redux/filtersSlice";
 import css from "./SearchBox.module.css";
 
 export default function SearchBox({ value, onChange }) {
-    
+  const dispatch = useDispatch();
+  const filterValue = useSelector((state) => state.filters.name);
+
   // search function
   const handleChange = (evt) => {
-    onChange(evt.currentTarget.value);
+    dispatch(changeFilter(evt.currentTarget.value));
   };
 
   // reset input function
   const handleResetClick = () => {
-    onChange("");
+    dispatch(changeFilter(""));
   };
 
   return (
@@ -20,7 +23,7 @@ export default function SearchBox({ value, onChange }) {
         <input
           className={css.field}
           type="text"
-          value={value}
+          value={filterValue}
           onChange={handleChange}
         />
         <button className={css.btn_reset} onClick={handleResetClick}>
